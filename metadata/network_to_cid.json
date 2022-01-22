@@ -2,5 +2,9 @@
     "development": {
         "MENFT": "0x832698Daec363C9A7aB036C224Af5B21280b3AC6",
         "MerkleDrop": "0x42E8D004c84E6B5Bad559D3b5CE7947AADb9E0bc"
+    },
+    "mumbai": {
+        "MENFT": "0x3d49CC6d62BB44fB4cf8aE2922C900d8FD620F1c",
+        "MerkleDrop": "0xDdf859B92F9b8F88a5Dd0BA8c864443d3CDCD2C8"
     }
 }
