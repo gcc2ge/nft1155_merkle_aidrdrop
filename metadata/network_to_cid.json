@@ -6,5 +6,9 @@
     "mumbai": {
         "MENFT": "0x3d49CC6d62BB44fB4cf8aE2922C900d8FD620F1c",
         "MerkleDrop": "0xDdf859B92F9b8F88a5Dd0BA8c864443d3CDCD2C8"
+    },
+    "polygon-mainnet": {
+        "MENFT": "0xf869D704109202636D887070771A64d53a95834D",
+        "MerkleDrop": "0x7dd1eccfFFB59dE41332b6Fc71A9C8e26A24f579"
     }
 }
