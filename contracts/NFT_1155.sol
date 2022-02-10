@@ -80,8 +80,8 @@ contract MENFT is ERC1155, Ownable {
         uint256 index;
         uint256 tokenCount = 0;
 
-        for (index = 0; index < _tokenIds; index++) {
-            uint256 balance = balanceOf(_owner, index + 1);
+        for (index = 0; index <= _tokenIds; index++) {
+            uint256 balance = balanceOf(_owner, index);
             if (balance > 0) {
                 tokenCount += 1;
             }
@@ -89,10 +89,10 @@ contract MENFT is ERC1155, Ownable {
 
         uint256[] memory result = new uint256[](tokenCount);
         uint256 index2;
-        for (index = 0; index < _tokenIds; index++) {
-            uint256 balance = balanceOf(_owner, index + 1);
+        for (index = 0; index <= _tokenIds; index++) {
+            uint256 balance = balanceOf(_owner, index);
             if (balance > 0) {
-                result[index2] = index + 1;
+                result[index2] = index;
                 index2 += 1;
             }
         }

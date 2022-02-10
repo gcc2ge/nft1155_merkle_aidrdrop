@@ -17,6 +17,7 @@ contract MerkleDrop is IMerkleDistributor, Ownable {
     bytes32 public override merkleRoot;
 
     mapping(address => bool) public withdrawn;
+    mapping(address => uint256) public withdrawn_id;
 
     constructor(address token_, bytes32 merkleRoot_) public {
         token = token_;
@@ -32,7 +33,15 @@ contract MerkleDrop is IMerkleDistributor, Ownable {
         return withdrawn[recipient];
     }
 
-    function claim(uint256 _id, bytes32[] calldata proof) external override {
+    function claimedTokenId(address recipient) public view returns (uint256) {
+        // recipint + tokenuri
+        return withdrawn_id[recipient];
+    }
+
+    function claim_old(uint256 _id, bytes32[] calldata proof)
+        external
+        override
+    {
         require(
             !isClaimed(msg.sender),
             "You have already withdrawn your entitled token."
@@ -44,6 +53,41 @@ contract MerkleDrop is IMerkleDistributor, Ownable {
 
         MENFT(token).mint(msg.sender, _id, 1);
         withdrawn[msg.sender] = true;
+        withdrawn_id[msg.sender] = _id;
+        emit Claimed(msg.sender, _id, 1);
+    }
+
+    function st2num(string memory numString) public pure returns (uint256) {
+        uint256 val = 0;
+        bytes memory stringBytes = bytes(numString);
+        for (uint256 i = 0; i < stringBytes.length; i++) {
+            uint256 exp = stringBytes.length - i;
+            bytes1 ival = stringBytes[i];
+            uint8 uval = uint8(ival);
+            uint256 jval = uval - uint256(0x30);
+
+            val += (uint256(jval) * (10**(exp - 1)));
+        }
+        return val;
+    }
+
+    function claim(string calldata tokenURI, bytes32[] calldata proof)
+        external
+        override
+    {
+        uint256 _id = st2num(tokenURI);
+        require(
+            !isClaimed(msg.sender),
+            "You have already withdrawn your entitled token."
+        );
+        require(
+            verifyEntitled(msg.sender, _id, proof),
+            "The proof could not be verified."
+        );
+
+        MENFT(token).mint(msg.sender, _id, 1);
+        withdrawn[msg.sender] = true;
+        withdrawn_id[msg.sender] = _id;
         emit Claimed(msg.sender, _id, 1);
     }
 
